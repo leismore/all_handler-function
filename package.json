@@ -1,0 +1,33 @@
+{
+  "name": "@leismore/all_handler",
+  "version": "1.0.0",
+  "description": "A Node.js and Express.js handler function for non-allowed-HTTP-methods.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leismore/all_handler-function.git"
+  },
+  "keywords": [
+    "Method Not Allowed",
+    "405",
+    "HTTP Handler"
+  ],
+  "author": "Kyle Chine",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leismore/all_handler-function/issues"
+  },
+  "homepage": "https://github.com/leismore/all_handler-function#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "@types/node": "^13.1.8"
+  },
+  "dependencies": {
+    "@leismore/lmerror": "^4.0.1",
+    "express": "^4.17.1"
+  }
+}
