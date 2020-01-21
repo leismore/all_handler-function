@@ -13,14 +13,14 @@ By me a coffee [![PayPal Donation](https://www.paypalobjects.com/en_AU/i/btn/btn
 ## Example
 
 ```typescript
-import * as express  from 'express';
-import { generator } from '@leismore/all_handler';
-import { LMError }   from '@leismore/lmerror';
+import * as express                from 'express';
+import { generator, gen_response } from '@leismore/all_handler';
+import { LMError }                 from '@leismore/lmerror';
 
 let ALLOWED = ['GET', 'POST'];
 let error   = new LMError(
   { message:"HTTP 405: Method Not Allowed", code:"405" },
-  { statusCode: '405', headers: { 'Allow': ALLOWED.join(', ') } }
+  gen_response(ALLOWED)
 );
 
 let all_handler = generator(ALLOWED, error);
@@ -59,6 +59,23 @@ function generator(allowed: string[], error: LMError):
  *   pass a HTTP 405 error to error handlers.
  */
 function all_handler(req:express.Request, _res:express.Response, next:express.NextFunction): void
+```
+
+### gen_response
+
+```typescript
+/**
+ * Generate Res object for LMError response parameter
+ * @param  allowed  HTTP methods names (uppercase)
+ */
+function gen_response(allowed: string[]):Res
+
+// Res type for describing HTTP response info.
+type Res = {                                            // HTTP response
+  readonly statusCode:  string,                         // HTTP response status code
+           headers?:   {readonly [key:string]: string}, // HTTP headers
+           body?:       any                             // HTTP body
+};
 ```
 
 ## License
