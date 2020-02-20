@@ -41,7 +41,7 @@ app.listen( port, () => console.log(`Example app listening on port ${port}!`) );
 ```typescript
 /**
  * Generate a non-allowed-HTTP-methods handler function.
- * @param  allowed HTTP methods names (uppercase)
+ * @param  allowed HTTP methods names
  * @param  error   LMError (or sub-class) instance
  */
 function generator(allowed: string[], error: LMError):
@@ -66,7 +66,7 @@ function all_handler(req:express.Request, _res:express.Response, next:express.Ne
 ```typescript
 /**
  * Generate Res object for LMError response parameter
- * @param  allowed  HTTP methods names (uppercase)
+ * @param  allowed  HTTP methods names
  */
 function gen_response(allowed: string[]):Res
 

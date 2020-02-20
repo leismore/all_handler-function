@@ -8,6 +8,11 @@ import { LMError }  from '@leismore/lmerror';
 function generator(allowed: string[], error: LMError):
   (req:express.Request, _res:express.Response, next:express.NextFunction) => void
 {
+  for (const k in allowed)
+  {
+    allowed[k] = allowed[k].toUpperCase();
+  }
+
   function all_handler(req:express.Request, _res:express.Response, next:express.NextFunction):void
   {
     if (allowed.includes( req.method.toUpperCase() ) === false)
@@ -34,6 +39,11 @@ type Res = {                                            // HTTP response
 // Generate Res object for LMError response parameter
 function gen_response(allowed: string[]):Res
 {
+  for (const k in allowed)
+  {
+    allowed[k] = allowed[k].toUpperCase();
+  }
+
   let response:Res = {
     statusCode: '405',
     headers: { 'Allow': allowed.join(', ') }
