@@ -1,6 +1,6 @@
 {
   "name": "@leismore/all_handler",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "A Node.js and Express.js handler function for non-allowed-HTTP-methods.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -17,7 +17,7 @@
     "HTTP Handler"
   ],
   "author": "Kyle Chine",
-  "license": "MIT",
+  "license": "AGPL-3.0-only",
   "bugs": {
     "url": "https://github.com/leismore/all_handler-function/issues"
   },
