@@ -10,31 +10,64 @@ By me a coffee [![PayPal Donation](https://www.paypalobjects.com/en_AU/i/btn/btn
 
 `npm install @leismore/all_handler`
 
+## Test
+
+`npm test`
+
 ## Example
 
 ```typescript
-import * as express                from 'express';
-import { generator, gen_response } from '@leismore/all_handler';
-import { LMError }                 from '@leismore/lmerror';
+import express = require('express');
+import { Response as Resp, ResData as RespData } from '@leismore/response';
+import { generator, gen_response, ExpressRoutingHandler } from '@leismore/all_handler';
+import { LMError } from '@leismore/lmerror';
 
-let ALLOWED = ['GET', 'POST'];
-let error   = new LMError(
-  { message:"HTTP 405: Method Not Allowed", code:"405" },
-  gen_response(ALLOWED)
+const app  = express();
+const port = 8080;
+
+const ALLOWED = ['head', 'get', 'POST'];
+const error405 = new LMError(
+    { message:"HTTP 405: Method Not Allowed", code:"405" },
+    gen_response(ALLOWED)
 );
 
-let all_handler = generator(ALLOWED, error);
+const all_handler:ExpressRoutingHandler = generator(ALLOWED, error405);
 
-let app  = express();
-let port = 3000;
+const get_handler:ExpressRoutingHandler = (req:express.Request, res:express.Response, next:express.NextFunction) => {
+    const resp = new Resp(res);
+    let data:RespData = {statusCode: '200', headers: {'Content-Type': 'application/json'}, body: {'result': 'OK'}};
+    resp.send(data);
+};
+
+const post_handler:ExpressRoutingHandler = get_handler;
 
 app.all('/', all_handler);
-app.get('/', (req, res) => res.send('Hello World!'));
+app.get ( '/', get_handler  );
+app.post( '/', post_handler );
 
-app.listen( port, () => console.log(`Example app listening on port ${port}!`) );
+app.listen(port, () => {
+  console.log(`@leismore/all_handler testing server, listening at http://localhost:${port}`);
+});
 ```
 
+* [@leismore/response](https://www.npmjs.com/package/@leismore/response)
+* [@leismore/lmerror](https://www.npmjs.com/package/@leismore/lmerror)
+
 ## API
+
+### Types
+
+```typescript
+type ExpressRoutingHandler = (req:express.Request, res:express.Response, next:express.NextFunction) => void;
+
+type Res = {                                            // As "LMErrorRes", HTTP response
+  readonly statusCode:  string,                         // HTTP response status code
+           headers?:   {readonly [key:string]: string}, // HTTP headers
+           body?:       any                             // HTTP body
+};
+```
+
+* [@leismore/lmerror](https://www.npmjs.com/package/@leismore/lmerror)
 
 ### The Function Generator
 
@@ -44,8 +77,7 @@ app.listen( port, () => console.log(`Example app listening on port ${port}!`) );
  * @param  allowed HTTP methods names
  * @param  error   LMError (or sub-class) instance
  */
-function generator(allowed: string[], error: LMError):
-  (req:express.Request, _res:express.Response, next:express.NextFunction) => void
+function generator(allowed: string[], error: LMError):ExpressRoutingHandler
 ```
 
 * LMError = [@leismore/lmerror](https://www.npmjs.com/package/@leismore/lmerror) (NPM)
@@ -69,18 +101,11 @@ function all_handler(req:express.Request, _res:express.Response, next:express.Ne
  * @param  allowed  HTTP methods names
  */
 function gen_response(allowed: string[]):Res
-
-// Res type for describing HTTP response info.
-type Res = {                                            // HTTP response
-  readonly statusCode:  string,                         // HTTP response status code
-           headers?:   {readonly [key:string]: string}, // HTTP headers
-           body?:       any                             // HTTP body
-};
 ```
 
 ## License
 
-MIT
+GNU Affero General Public License v3.0
 
 ## Authors
 

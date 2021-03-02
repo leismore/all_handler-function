@@ -5,7 +5,7 @@
 import express = require('express');
 import { LMError, Res }  from '@leismore/lmerror';
 
-type ExpressRoutingHandler = (req:express.Request, _res:express.Response, next:express.NextFunction) => void;
+type ExpressRoutingHandler = (req:express.Request, res:express.Response, next:express.NextFunction) => void;
 
 function generator(allowed: string[], error: LMError): ExpressRoutingHandler
 {
