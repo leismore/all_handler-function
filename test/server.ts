@@ -1,6 +1,7 @@
 import express = require('express');
-import { Response as Resp, ResData as RespData } from '@leismore/response';
-import { generator, gen_response, ExpressRoutingHandler } from '../src/index';
+import { LMResponse as Resp, LMResponseData as RespData } from '@leismore/response';
+import { all_handler_generator     as generator,
+  all_handler_LMErrorRes_generator as gen_response, ExpressRoutingHandler } from '../src/index';
 import { LMError } from '@leismore/lmerror';
 
 const app  = express();
