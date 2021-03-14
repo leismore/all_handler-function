@@ -3,7 +3,7 @@
  */
 
 import express = require('express');
-import { LMError, Res }  from '@leismore/lmerror';
+import { LMError, LMErrorRes }  from '@leismore/lmerror';
 
 type ExpressRoutingHandler = (req:express.Request, res:express.Response, next:express.NextFunction) => void;
 
@@ -31,19 +31,24 @@ function generator(allowed: string[], error: LMError): ExpressRoutingHandler
   return all_handler;
 }
 
-// Generate Res object for LMError response parameter
-function gen_response(allowed: string[]):Res
+// Generate LMErrorRes object for LMError
+function gen_response(allowed: string[]):LMErrorRes
 {
   for (const k in allowed)
   {
     allowed[k] = allowed[k].toUpperCase();
   }
 
-  let response:Res = {
+  let response:LMErrorRes = {
     statusCode: '405',
     headers: { 'Allow': allowed.join(', ') }
   };
   return response;
 }
 
-export { generator, gen_response, ExpressRoutingHandler, Res as LMErrorRes };
+export {
+  generator    as all_handler_generator,
+  gen_response as all_handler_LMErrorRes_generator,
+  ExpressRoutingHandler,
+  LMErrorRes
+};
