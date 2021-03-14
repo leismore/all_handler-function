@@ -18,8 +18,10 @@ By me a coffee [![PayPal Donation](https://www.paypalobjects.com/en_AU/i/btn/btn
 
 ```typescript
 import express = require('express');
-import { Response as Resp, ResData as RespData } from '@leismore/response';
-import { generator, gen_response, ExpressRoutingHandler } from '@leismore/all_handler';
+import { LMResponse as Resp, LMResponseData as RespData } from '@leismore/response';
+import { all_handler_generator            as generator,
+         all_handler_LMErrorRes_generator as gen_response,
+         ExpressRoutingHandler } from '@leismore/all_handler';
 import { LMError } from '@leismore/lmerror';
 
 const app  = express();
@@ -60,7 +62,7 @@ app.listen(port, () => {
 ```typescript
 type ExpressRoutingHandler = (req:express.Request, res:express.Response, next:express.NextFunction) => void;
 
-type Res = {                                            // As "LMErrorRes", HTTP response
+type LMErrorRes = {
   readonly statusCode:  string,                         // HTTP response status code
            headers?:   {readonly [key:string]: string}, // HTTP headers
            body?:       any                             // HTTP body
@@ -69,7 +71,7 @@ type Res = {                                            // As "LMErrorRes", HTTP
 
 * [@leismore/lmerror](https://www.npmjs.com/package/@leismore/lmerror)
 
-### The Function Generator
+### Function: all_handler_generator
 
 ```typescript
 /**
@@ -77,30 +79,30 @@ type Res = {                                            // As "LMErrorRes", HTTP
  * @param  allowed HTTP methods names
  * @param  error   LMError (or sub-class) instance
  */
-function generator(allowed: string[], error: LMError):ExpressRoutingHandler
+function all_handler_generator(allowed: string[], error: LMError):ExpressRoutingHandler
 ```
 
 * LMError = [@leismore/lmerror](https://www.npmjs.com/package/@leismore/lmerror) (NPM)
 
-### The Non-Allowed-HTTP-Methods Handler
+### Function: all_handler
 
 ```typescript
 /**
  * Test HTTP request methods, if allowed, pass to its handlers
  * else
- *   pass a HTTP 405 error to error handlers.
+ *   pass a LMError to the next error handler.
  */
-function all_handler(req:express.Request, _res:express.Response, next:express.NextFunction): void
+function all_handler(req:express.Request, res:express.Response, next:express.NextFunction): void
 ```
 
-### gen_response
+### Function: all_handler_LMErrorRes_generator
 
 ```typescript
 /**
- * Generate Res object for LMError response parameter
+ * Generate a LMErrorRes object for LMError
  * @param  allowed  HTTP methods names
  */
-function gen_response(allowed: string[]):Res
+function all_handler_LMErrorRes_generator(allowed: string[]):LMErrorRes
 ```
 
 ## License
