@@ -1,6 +1,6 @@
 {
   "name": "@leismore/all_handler",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A Node.js and Express.js handler function for non-allowed-HTTP-methods.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
